@@ -5,6 +5,7 @@ const app = express()
 const port = process.env.PORT || 3000
 
 app.use(logger)
+app.use(express.json())
 app.use("/api", require("./src/routes/router"))
 app.use((req, res) => {
     res.status(404).json({

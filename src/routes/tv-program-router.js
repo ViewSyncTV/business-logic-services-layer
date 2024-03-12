@@ -9,5 +9,6 @@ router.get("/", (req, res) => {
 })
 
 router.get("/all", tvProgramController.getAllPrograms)
+router.get("/today", tvProgramController.getTodayPrograms)
 
 module.exports = router
