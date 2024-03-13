@@ -1,12 +1,13 @@
 const axios = require("axios")
 
 const BUSINESS_LOGIC_SERVICE_URL = process.env.BUSINESS_LOGIC_SERVICE_URL || "http://localhost:3040"
+const ADAPTER_SERVICE_URL = process.env.ADAPTER_SERVICE_URL || "http://localhost:3030"
+
 const MEDIASET_TV_PROGRAM_CONTROLLER_URL = `${BUSINESS_LOGIC_SERVICE_URL}/api/tv-program/mediaset`
 const MEDIASET_TODAY_PROGRAMS_GET = `${MEDIASET_TV_PROGRAM_CONTROLLER_URL}/today`
+const MEDIASET_TV_PROGRAMS_ADAPTER_POST = `${ADAPTER_SERVICE_URL}/api/tv-program/mediaset`
 
-// const ADAPTER_SERVICE_URL = process.env.ADAPTER_SERVICE_URL || "http://localhost:3030"
 // const MILLISECONDS_IN_ONE_DAY = 86400000
-
 // const GET_LAST_UPDATE_URL = `${ADAPTER_SERVICE_URL}/api/db/tv-programs/get-last-update`
 
 const mediasetChannels = [
@@ -28,33 +29,25 @@ const mediasetChannels = [
 ]
 
 class TvProgramController {
+    constructor() {
+        this.getTodayPrograms = this.getTodayPrograms.bind(this)
+    }
+
     async getTodayPrograms(req, res) {
-        // TODO: for now only mediaset works
         try {
-            var mediasetPrograms = []
+            let mediasetPrograms = []
             for (let channel of mediasetChannels) {
-                let url = `${MEDIASET_TODAY_PROGRAMS_GET}/${channel}`
-                let response = await axios.get(url)
-
-                if (response.status === 200) {
-                    let channelPrograms = []
-
-                    for (let entry of response.data.entries) {
-                        for (let listing of entry.listings) {
-                            channelPrograms.push({
-                                name: listing.mediasetlisting$epgTitle,
-                                description: listing.description,
-                                channel: channel,
-                                start_time: listing.startTime,
-                                end_time: listing.endTime,
-                            })
-                        }
-                    }
-
-                    mediasetPrograms.push(channelPrograms)
+                try {
+                    const data = await this.#fetchAndParsePrograms(req.log, channel)
+                    mediasetPrograms.push(data)
+                } catch (error) {
+                    req.log.error(
+                        `Error fetching and parsing programs for channel ${channel}: ${error.message}`,
+                    )
                 }
             }
 
+            mediasetPrograms.filter((program) => program.length > 0)
             return res.send(mediasetPrograms)
         } catch (error) {
             req.log.error(`Error getting today's programs: ${error.message}`)
@@ -62,7 +55,29 @@ class TvProgramController {
         }
     }
 
-    async getAllPrograms(req, res) {}
+    async #fetchAndParsePrograms(logger, channel) {
+        try {
+            const response = await axios.get(`${MEDIASET_TODAY_PROGRAMS_GET}/${channel}`)
+
+            if (response.status === 200) {
+                const adapterResponse = await axios.post(
+                    MEDIASET_TV_PROGRAMS_ADAPTER_POST,
+                    response.data,
+                )
+
+                if (adapterResponse.status === 200) {
+                    return adapterResponse.data
+                }
+            }
+
+            throw new Error("Error calling the adapter")
+        } catch (error) {
+            logger.error(
+                `Error fetching and parsing programs for channel ${channel}: ${error.message}`,
+            )
+            throw new Error("Error fetching and parsing programs")
+        }
+    }
 
     // async getDateSinceLastUpdate() {
     //     try {
