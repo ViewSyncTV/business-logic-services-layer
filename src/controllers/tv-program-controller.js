@@ -1,11 +1,8 @@
 const axios = require("axios")
 
-const BUSINESS_LOGIC_SERVICE_URL = process.env.BUSINESS_LOGIC_SERVICE_URL || "http://localhost:3040"
 const ADAPTER_SERVICE_URL = process.env.ADAPTER_SERVICE_URL || "http://localhost:3030"
 
-const MEDIASET_TV_PROGRAM_CONTROLLER_URL = `${BUSINESS_LOGIC_SERVICE_URL}/api/tv-program/mediaset`
-const MEDIASET_TODAY_PROGRAMS_GET = `${MEDIASET_TV_PROGRAM_CONTROLLER_URL}/today`
-const MEDIASET_TV_PROGRAMS_ADAPTER_POST = `${ADAPTER_SERVICE_URL}/api/tv-program/mediaset`
+const MEDIASET_TV_PROGRAMS_TODAY_GET = `${ADAPTER_SERVICE_URL}/api/tv-program/mediaset/today`
 
 // const MILLISECONDS_IN_ONE_DAY = 86400000
 // const GET_LAST_UPDATE_URL = `${ADAPTER_SERVICE_URL}/api/db/tv-programs/get-last-update`
@@ -29,17 +26,19 @@ const mediasetChannels = [
 ]
 
 class TvProgramController {
-    constructor() {
-        this.getTodayPrograms = this.getTodayPrograms.bind(this)
-    }
-
     async getTodayPrograms(req, res) {
         try {
             let mediasetPrograms = []
             for (let channel of mediasetChannels) {
                 try {
-                    const data = await this.#fetchAndParsePrograms(req.log, channel)
-                    mediasetPrograms.push(data)
+                    const url = `${MEDIASET_TV_PROGRAMS_TODAY_GET}/${channel}`
+                    req.log.info(`Calling adapter service: ${url}`)
+                    const response = await axios.get(url)
+
+                    if (response.status === 200) {
+                        req.log.info("Adapter service response is OK")
+                        mediasetPrograms.push(response.data.data)
+                    }
                 } catch (error) {
                     req.log.error(
                         `Error fetching and parsing programs for channel ${channel}: ${error.message}`,
@@ -48,34 +47,10 @@ class TvProgramController {
             }
 
             mediasetPrograms.filter((program) => program.length > 0)
-            return res.send(mediasetPrograms)
+            return res.send({ data: mediasetPrograms })
         } catch (error) {
             req.log.error(`Error getting today's programs: ${error.message}`)
             res.status(500).send({ error: { message: "Error getting today's programs" } })
-        }
-    }
-
-    async #fetchAndParsePrograms(logger, channel) {
-        try {
-            const response = await axios.get(`${MEDIASET_TODAY_PROGRAMS_GET}/${channel}`)
-
-            if (response.status === 200) {
-                const adapterResponse = await axios.post(
-                    MEDIASET_TV_PROGRAMS_ADAPTER_POST,
-                    response.data,
-                )
-
-                if (adapterResponse.status === 200) {
-                    return adapterResponse.data
-                }
-            }
-
-            throw new Error("Error calling the adapter")
-        } catch (error) {
-            logger.error(
-                `Error fetching and parsing programs for channel ${channel}: ${error.message}`,
-            )
-            throw new Error("Error fetching and parsing programs")
         }
     }
 
