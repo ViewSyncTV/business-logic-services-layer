@@ -1,11 +1,11 @@
 const axios = require("axios")
 
-const ADAPTER_SERVICE_URL = process.env.ADAPTER_SERVICE_URL || "http://localhost:3030"
+const DATA_SERVICE_URL = process.env.DATA_SERVICE_URL || "http://localhost:3030"
 
-const MEDIASET_TV_PROGRAMS_TODAY_GET = `${ADAPTER_SERVICE_URL}/api/tv-program/mediaset/today`
-const GET_LAST_UPDATE_URL = `${ADAPTER_SERVICE_URL}/api/db/tv-program/get-last-update`
-const TV_PROGRAM_INSERT_URL = `${ADAPTER_SERVICE_URL}/api/db/tv-program/insert`
-const DB_TV_PROGRAM_TODAY_GET_URL = `${ADAPTER_SERVICE_URL}/api/db/tv-program/today`
+const MEDIASET_TV_PROGRAMS_TODAY_GET = `${DATA_SERVICE_URL}/api/tv-program/mediaset/today`
+const GET_LAST_UPDATE_URL = `${DATA_SERVICE_URL}/api/db/tv-program/get-last-update`
+const TV_PROGRAM_INSERT_URL = `${DATA_SERVICE_URL}/api/db/tv-program/insert`
+const DB_TV_PROGRAM_TODAY_GET_URL = `${DATA_SERVICE_URL}/api/db/tv-program/today`
 
 const MILLISECONDS_IN_ONE_DAY = 86400000
 
@@ -41,11 +41,11 @@ class TvProgramController {
                 for (let channel of mediasetChannels) {
                     try {
                         const url = `${MEDIASET_TV_PROGRAMS_TODAY_GET}/${channel}`
-                        req.log.info(`Calling adapter service: ${url}`)
+                        req.log.info(`Calling data service: ${url}`)
                         const response = await axios.get(url)
 
                         if (response.status === 200) {
-                            req.log.info("Adapter service response is OK")
+                            req.log.info("Data service response is OK")
                             mediasetPrograms.push(...response.data.data)
                         }
                     } catch (error) {
@@ -58,27 +58,27 @@ class TvProgramController {
                 mediasetPrograms.filter((program) => program.length > 0)
 
                 // save the data on the db
-                req.log.info(`Calling adapter service: ${TV_PROGRAM_INSERT_URL}`)
+                req.log.info(`Calling data service: ${TV_PROGRAM_INSERT_URL}`)
                 const insertResponse = await axios.post(TV_PROGRAM_INSERT_URL, {
                     data: mediasetPrograms,
                 })
 
                 if (insertResponse.status === 200) {
-                    req.log.info("Adapter service response is OK")
+                    req.log.info("Data service response is OK")
                 } else {
                     req.log.error("Error saving programs to the DB")
                     throw new Error("Error saving programs to the DB")
                 }
             }
 
-            req.log.info(`Calling adapter service: ${DB_TV_PROGRAM_TODAY_GET_URL}`)
+            req.log.info(`Calling data service: ${DB_TV_PROGRAM_TODAY_GET_URL}`)
             const dbResponse = await axios.get(DB_TV_PROGRAM_TODAY_GET_URL)
 
             if (dbResponse.status === 200) {
-                req.log.info("Adapter service response is OK")
+                req.log.info("Data service response is OK")
                 res.send({ data: dbResponse.data.data })
             } else {
-                throw new Error("Bad response from the adapter service")
+                throw new Error("Bad response from the data service")
             }
         } catch (error) {
             req.log.error(`Error getting today's programs: ${error.message}`)
@@ -92,7 +92,7 @@ class TvProgramController {
 
             // check if days_since_last_update is is Nan
             if (isNaN(days_since_last_update)) {
-                logger.error("Adapter service response is not a number")
+                logger.error("Data service response is not a number")
                 return true
             }
 
@@ -106,7 +106,7 @@ class TvProgramController {
 
     async #getDaysSinceLastUpdate(logger) {
         try {
-            logger.info(`Calling adapter service:  ${GET_LAST_UPDATE_URL}`)
+            logger.info(`Calling data service:  ${GET_LAST_UPDATE_URL}`)
             const lastUpdateResponse = await axios.get(GET_LAST_UPDATE_URL)
 
             if ("error" in lastUpdateResponse) {
@@ -114,11 +114,11 @@ class TvProgramController {
             }
 
             if (lastUpdateResponse.data.data === null) {
-                logger.error("Empty response from adapter service")
-                throw new Error("Empty response from the adapter service")
+                logger.error("Empty response from data service")
+                throw new Error("Empty response from the data service")
             }
 
-            logger.info("Adapter service response is OK")
+            logger.info("Data service response is OK")
             let lastUpdateDate = new Date(lastUpdateResponse.data.data)
             let days_since_last_update =
                 (new Date().getTime() - lastUpdateDate) / MILLISECONDS_IN_ONE_DAY
