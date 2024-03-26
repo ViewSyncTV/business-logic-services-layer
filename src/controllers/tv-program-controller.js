@@ -118,8 +118,9 @@ class TvProgramController {
         let raiPrograms = []
         for (let channel of raiChannels) {
             try {
-                logger.info(`Calling data service: ${RAI_TV_PROGRAMS_TODAY_GET}`)
-                const response = await axios.get(RAI_TV_PROGRAMS_TODAY_GET)
+                const url = `${RAI_TV_PROGRAMS_TODAY_GET}/${channel}`
+                logger.info(`Calling data service: ${url}`)
+                const response = await axios.get(url)
 
                 if (response.status === 200) {
                     logger.info("Data service response is OK")
