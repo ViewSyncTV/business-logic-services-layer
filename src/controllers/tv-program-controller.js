@@ -3,8 +3,10 @@ const axios = require("axios")
 const DATA_SERVICE_URL = process.env.DATA_SERVICE_URL || "http://localhost:3030"
 
 const MEDIASET_TV_PROGRAMS_TODAY_GET = `${DATA_SERVICE_URL}/api/tv-program/mediaset/today`
+const RAI_TV_PROGRAMS_TODAY_GET = `${DATA_SERVICE_URL}/api/tv-program/rai/today`
 const GET_LAST_UPDATE_URL = `${DATA_SERVICE_URL}/api/db/tv-program/get-last-update`
 const TV_PROGRAM_INSERT_URL = `${DATA_SERVICE_URL}/api/db/tv-program/insert`
+
 const DB_TV_PROGRAM_TODAY_GET_URL = `${DATA_SERVICE_URL}/api/db/tv-program/today`
 
 const MILLISECONDS_IN_ONE_DAY = 86400000
@@ -27,6 +29,25 @@ const mediasetChannels = [
     "LA", // Cartoonito
 ]
 
+const raiChannels = [
+    "rai-1 ",
+    "rai-2 ",
+    "rai-3 ",
+    "rai-4 ",
+    "rai-5 ",
+    "rai-movie ",
+    "rai-premium ",
+    "rai-gulp ",
+    "rai-yoyo ",
+    "rai-storia ",
+    "rai-news-24 ",
+    "rai-sport ",
+    "raiplay ",
+    "raiplay-2 ",
+    "raiplay-3 ",
+    "rai-radio-2 ",
+]
+
 class TvProgramController {
     constructor() {
         this.getTodayPrograms = this.getTodayPrograms.bind(this)
@@ -37,30 +58,14 @@ class TvProgramController {
             if (await this.#isDbUpdateNeeded(req.log)) {
                 req.log.info("DB update is needed")
 
-                let mediasetPrograms = []
-                for (let channel of mediasetChannels) {
-                    try {
-                        const url = `${MEDIASET_TV_PROGRAMS_TODAY_GET}/${channel}`
-                        req.log.info(`Calling data service: ${url}`)
-                        const response = await axios.get(url)
-
-                        if (response.status === 200) {
-                            req.log.info("Data service response is OK")
-                            mediasetPrograms.push(...response.data.data)
-                        }
-                    } catch (error) {
-                        req.log.error(
-                            `Error fetching and parsing programs for channel ${channel}: ${error.message}`,
-                        )
-                    }
-                }
-
-                mediasetPrograms.filter((program) => program.length > 0)
+                const mediasetPrograms = await this.#getMediasetPrograms(req.log)
+                const raiPrograms = await this.#getRaiPrograms(req.log)
+                const allPrograms = mediasetPrograms.concat(raiPrograms)
 
                 // save the data on the db
                 req.log.info(`Calling data service: ${TV_PROGRAM_INSERT_URL}`)
                 const insertResponse = await axios.post(TV_PROGRAM_INSERT_URL, {
-                    data: mediasetPrograms,
+                    data: allPrograms,
                 })
 
                 if (insertResponse.status === 200) {
@@ -84,6 +89,51 @@ class TvProgramController {
             req.log.error(`Error getting today's programs: ${error.message}`)
             res.status(500).send({ error: { message: "Error getting today's programs" } })
         }
+    }
+
+    async #getMediasetPrograms(logger) {
+        let mediasetPrograms = []
+        for (let channel of mediasetChannels) {
+            try {
+                const url = `${MEDIASET_TV_PROGRAMS_TODAY_GET}/${channel}`
+                logger.info(`Calling data service: ${url}`)
+                const response = await axios.get(url)
+
+                if (response.status === 200) {
+                    logger.info("Data service response is OK")
+                    mediasetPrograms.push(...response.data.data)
+                }
+            } catch (error) {
+                logger.error(
+                    `Error fetching and parsing programs for channel ${channel}: ${error.message}`,
+                )
+            }
+        }
+
+        mediasetPrograms.filter((program) => program.length > 0)
+        return mediasetPrograms
+    }
+
+    async #getRaiPrograms(logger) {
+        let raiPrograms = []
+        for (let channel of raiChannels) {
+            try {
+                logger.info(`Calling data service: ${RAI_TV_PROGRAMS_TODAY_GET}`)
+                const response = await axios.get(RAI_TV_PROGRAMS_TODAY_GET)
+
+                if (response.status === 200) {
+                    logger.info("Data service response is OK")
+                    raiPrograms.push(...response.data.data)
+                }
+            } catch (error) {
+                logger.error(
+                    `Error fetching and parsing programs for channel ${channel}: ${error.message}`,
+                )
+            }
+        }
+
+        raiPrograms.filter((program) => program.length > 0)
+        return raiPrograms
     }
 
     async #isDbUpdateNeeded(logger) {
