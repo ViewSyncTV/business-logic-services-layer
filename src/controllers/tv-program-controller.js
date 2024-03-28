@@ -2,8 +2,8 @@ const axios = require("axios")
 
 const DATA_SERVICE_URL = process.env.DATA_SERVICE_URL || "http://localhost:3030"
 
-const MEDIASET_TV_PROGRAMS_TODAY_GET = `${DATA_SERVICE_URL}/api/tv-program/mediaset/today`
-const RAI_TV_PROGRAMS_TODAY_GET = `${DATA_SERVICE_URL}/api/tv-program/rai/today`
+const MEDIASET_TV_PROGRAMS_WEEK_GET = `${DATA_SERVICE_URL}/api/tv-program/mediaset/week`
+const RAI_TV_PROGRAMS_WEEK_GET = `${DATA_SERVICE_URL}/api/tv-program/rai/week`
 const GET_LAST_UPDATE_URL = `${DATA_SERVICE_URL}/api/db/tv-program/get-last-update`
 const TV_PROGRAM_INSERT_URL = `${DATA_SERVICE_URL}/api/db/tv-program/insert`
 
@@ -20,26 +20,7 @@ class TvProgramController {
 
     async getTodayPrograms(req, res) {
         try {
-            if (await this.#isDbUpdateNeeded(req.log)) {
-                req.log.info("DB update is needed")
-
-                const mediasetPrograms = await this.#getMediasetPrograms(req.log)
-                const raiPrograms = await this.#getRaiPrograms(req.log)
-                const allPrograms = mediasetPrograms.concat(raiPrograms)
-
-                // save the data on the db
-                req.log.info(`Calling data service: ${TV_PROGRAM_INSERT_URL}`)
-                const insertResponse = await axios.post(TV_PROGRAM_INSERT_URL, {
-                    data: allPrograms,
-                })
-
-                if (insertResponse.status === 200) {
-                    req.log.info("Data service response is OK")
-                } else {
-                    req.log.error("Error saving programs to the DB")
-                    throw new Error("Error saving programs to the DB")
-                }
-            }
+            await this.#checkEndUpdateDB(req.log)
 
             req.log.info(`Calling data service: ${DB_TV_PROGRAM_TODAY_GET_URL}`)
             const dbResponse = await axios.get(DB_TV_PROGRAM_TODAY_GET_URL)
@@ -53,6 +34,29 @@ class TvProgramController {
         } catch (error) {
             req.log.error(`Error getting today's programs: ${error.message}`)
             res.status(500).send({ error: { message: "Error getting today's programs" } })
+        }
+    }
+
+    async #checkEndUpdateDB(logger) {
+        if (await this.#isDbUpdateNeeded(logger)) {
+            logger.info("DB update is needed")
+
+            const mediasetPrograms = await this.#getMediasetPrograms(logger)
+            const raiPrograms = await this.#getRaiPrograms(logger)
+            const allPrograms = mediasetPrograms.concat(raiPrograms)
+
+            // save the data on the db
+            logger.info(`Calling data service: ${TV_PROGRAM_INSERT_URL}`)
+            const insertResponse = await axios.post(TV_PROGRAM_INSERT_URL, {
+                data: allPrograms,
+            })
+
+            if (insertResponse.status === 200) {
+                logger.info("Data service response is OK")
+            } else {
+                logger.error("Error saving programs to the DB")
+                throw new Error("Error saving programs to the DB")
+            }
         }
     }
 
@@ -73,7 +77,7 @@ class TvProgramController {
 
         for (let channel of mediasetChannels) {
             try {
-                const url = `${MEDIASET_TV_PROGRAMS_TODAY_GET}/${channel}`
+                const url = `${MEDIASET_TV_PROGRAMS_WEEK_GET}/${channel}`
                 logger.info(`Calling data service: ${url}`)
                 const response = await axios.get(url)
 
@@ -109,7 +113,7 @@ class TvProgramController {
 
         for (let channel of raiChannels) {
             try {
-                const url = `${RAI_TV_PROGRAMS_TODAY_GET}/${channel}`
+                const url = `${RAI_TV_PROGRAMS_WEEK_GET}/${channel}`
                 logger.info(`Calling data service: ${url}`)
                 const response = await axios.get(url)
 
@@ -139,7 +143,7 @@ class TvProgramController {
             }
 
             logger.info(`Days since last update: ${days_since_last_update}`)
-            return days_since_last_update > 1
+            return days_since_last_update > 7
         } catch (error) {
             logger.error("Error checking if DB update is needed:", error)
             return true
