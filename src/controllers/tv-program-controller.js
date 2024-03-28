@@ -8,45 +8,10 @@ const GET_LAST_UPDATE_URL = `${DATA_SERVICE_URL}/api/db/tv-program/get-last-upda
 const TV_PROGRAM_INSERT_URL = `${DATA_SERVICE_URL}/api/db/tv-program/insert`
 
 const DB_TV_PROGRAM_TODAY_GET_URL = `${DATA_SERVICE_URL}/api/db/tv-program/today`
+const DB_TV_PROGRAM_RAI_CHANNEL_LIST_GET = `${DATA_SERVICE_URL}/api/db/tv-program/rai-channel-list`
+const DB_TV_PROGRAM_MEDIASET_CHANNEL_LIST_GET = `${DATA_SERVICE_URL}/api/db/tv-program/mediaset-channel-list`
 
 const MILLISECONDS_IN_ONE_DAY = 86400000
-
-const mediasetChannels = [
-    "C5", // Canale5
-    "I1", // Italia1
-    "R4", // Rete4
-    "LB", // 20
-    "KI", // Iris
-    "TS", // 27
-    "KA", // La5
-    "B6", // Cine34
-    "FU", // Focus
-    "LT", // TopCrime
-    "I2", // Italia2
-    "KF", // Tgcom24
-    "KQ", // MediasetExtra
-    "KB", // Boing
-    "LA", // Cartoonito
-]
-
-const raiChannels = [
-    "rai-1 ",
-    "rai-2 ",
-    "rai-3 ",
-    "rai-4 ",
-    "rai-5 ",
-    "rai-movie ",
-    "rai-premium ",
-    "rai-gulp ",
-    "rai-yoyo ",
-    "rai-storia ",
-    "rai-news-24 ",
-    "rai-sport ",
-    "raiplay ",
-    "raiplay-2 ",
-    "raiplay-3 ",
-    "rai-radio-2 ",
-]
 
 class TvProgramController {
     constructor() {
@@ -93,6 +58,19 @@ class TvProgramController {
 
     async #getMediasetPrograms(logger) {
         let mediasetPrograms = []
+        let mediasetChannels = []
+
+        // get the list of mediaset channels from the database
+        logger.info(`Calling data service: ${DB_TV_PROGRAM_MEDIASET_CHANNEL_LIST_GET}`)
+        await axios
+            .get(DB_TV_PROGRAM_MEDIASET_CHANNEL_LIST_GET)
+            .then((response) => {
+                mediasetChannels = response.data.data.map((channel) => channel.id)
+            })
+            .catch((error) => {
+                logger.error(`Error fetching mediaset channels: ${error.message}`)
+            })
+
         for (let channel of mediasetChannels) {
             try {
                 const url = `${MEDIASET_TV_PROGRAMS_TODAY_GET}/${channel}`
@@ -116,6 +94,19 @@ class TvProgramController {
 
     async #getRaiPrograms(logger) {
         let raiPrograms = []
+        let raiChannels = []
+
+        //getthelist of rai channels from the database
+        logger.info(`Calling data service: ${DB_TV_PROGRAM_RAI_CHANNEL_LIST_GET}`)
+        await axios
+            .get(DB_TV_PROGRAM_RAI_CHANNEL_LIST_GET)
+            .then((response) => {
+                raiChannels = response.data.data.map((channel) => channel.id)
+            })
+            .catch((error) => {
+                logger.error(`Error fetching mediaset channels: ${error.message}`)
+            })
+
         for (let channel of raiChannels) {
             try {
                 const url = `${RAI_TV_PROGRAMS_TODAY_GET}/${channel}`
