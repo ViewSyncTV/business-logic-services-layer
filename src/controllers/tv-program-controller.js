@@ -19,22 +19,13 @@ class TvProgramController {
     }
 
     async getTodayPrograms(req, res) {
-        try {
-            await this.#checkEndUpdateDB(req.log)
+        await this.#checkEndUpdateDB(req.log)
 
-            req.log.info(`Calling data service: ${DB_TV_PROGRAM_TODAY_GET_URL}`)
-            const dbResponse = await axios.get(DB_TV_PROGRAM_TODAY_GET_URL)
+        req.log.info(`Calling data service: ${DB_TV_PROGRAM_TODAY_GET_URL}`)
+        const dbResponse = await axios.get(DB_TV_PROGRAM_TODAY_GET_URL)
 
-            if (dbResponse.status === 200) {
-                req.log.info("Data service response is OK")
-                res.send({ data: dbResponse.data.data })
-            } else {
-                throw new Error("Bad response from the data service")
-            }
-        } catch (error) {
-            req.log.error(`Error getting today's programs: ${error.message}`)
-            res.status(500).send({ error: { message: "Error getting today's programs" } })
-        }
+        req.log.info("Data service response is OK")
+        res.send({ data: dbResponse.data.data })
     }
 
     async #checkEndUpdateDB(logger) {

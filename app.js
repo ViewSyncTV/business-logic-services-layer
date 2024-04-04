@@ -1,5 +1,6 @@
 const express = require("express")
 const logger = require("./src/middleware/logger")
+const { errorHandler } = require("./src/middleware/error_handler")
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -16,5 +17,7 @@ app.use((req, res) => {
         },
     })
 })
+
+app.use(errorHandler)
 
 app.listen(port, () => {})
