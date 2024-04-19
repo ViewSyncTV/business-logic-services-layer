@@ -28,6 +28,10 @@ class ProgramMetadataController {
         if (response.data?.data?.length > 0) {
             const movie = response.data.data[0]
 
+            // simulate a delay, otherwise i get 'socket hang up' error
+            // (not really in this function, but in the getTvShowDetails, but in order to avoid it, i put it here too)
+            await new Promise(resolve => setTimeout(resolve, 1))
+
             // get details of the movie
             const movieDetailsUrl = PROGRAM_METADATA_MOVIE_DETAILS_URL.replace("{id}", movie.id)
             req.log.info(`Calling data service: ${movieDetailsUrl}`)
@@ -52,6 +56,9 @@ class ProgramMetadataController {
         // take only the first
         if (response.data?.data?.length > 0) {
             const tvShow = response.data.data[0]
+
+            // simulate a delay, otherwise i get 'socket hang up' error
+            await new Promise(resolve => setTimeout(resolve, 1))
 
             // get details of the TV show
             const tvShowDetailsUrl = PROGRAM_METADATA_TV_SHOW_DETAILS_URL.replace("{id}", tvShow.id)
