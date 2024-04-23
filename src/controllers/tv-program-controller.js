@@ -134,7 +134,7 @@ class TvProgramController {
             }
 
             logger.info(`Days since last update: ${days_since_last_update}`)
-            return days_since_last_update > 7
+            return days_since_last_update > 3
         } catch (error) {
             logger.error("Error checking if DB update is needed:", error)
             return true
