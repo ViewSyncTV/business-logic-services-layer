@@ -8,6 +8,7 @@ const GET_LAST_UPDATE_URL = `${DATA_SERVICE_URL}/api/db/tv-program/get-last-upda
 const TV_PROGRAM_INSERT_URL = `${DATA_SERVICE_URL}/api/db/tv-program/insert`
 
 const DB_TV_PROGRAM_TODAY_GET_URL = `${DATA_SERVICE_URL}/api/db/tv-program/today`
+const DB_TV_PROGRAM_WEEK_GET_URL = `${DATA_SERVICE_URL}/api/db/tv-program/week`
 const DB_TV_PROGRAM_RAI_CHANNEL_LIST_GET = `${DATA_SERVICE_URL}/api/db/tv-program/rai-channel-list`
 const DB_TV_PROGRAM_MEDIASET_CHANNEL_LIST_GET = `${DATA_SERVICE_URL}/api/db/tv-program/mediaset-channel-list`
 
@@ -16,6 +17,7 @@ const MILLISECONDS_IN_ONE_DAY = 86400000
 class TvProgramController {
     constructor() {
         this.getTodayPrograms = this.getTodayPrograms.bind(this)
+        this.getWeekPrograms = this.getWeekPrograms.bind(this)
     }
 
     async getTodayPrograms(req, res) {
@@ -23,6 +25,16 @@ class TvProgramController {
 
         req.log.info(`Calling data service: ${DB_TV_PROGRAM_TODAY_GET_URL}`)
         const dbResponse = await axios.get(DB_TV_PROGRAM_TODAY_GET_URL)
+
+        req.log.info("Data service response is OK")
+        res.send({ data: dbResponse.data.data })
+    }
+
+    async getWeekPrograms(req, res) {
+        await this.#checkEndUpdateDB(req.log)
+
+        req.log.info(`Calling data service: ${DB_TV_PROGRAM_WEEK_GET_URL}`)
+        const dbResponse = await axios.get(DB_TV_PROGRAM_WEEK_GET_URL)
 
         req.log.info("Data service response is OK")
         res.send({ data: dbResponse.data.data })
@@ -134,7 +146,7 @@ class TvProgramController {
             }
 
             logger.info(`Days since last update: ${days_since_last_update}`)
-            return days_since_last_update > 3
+            return days_since_last_update > 1
         } catch (error) {
             logger.error("Error checking if DB update is needed:", error)
             return true

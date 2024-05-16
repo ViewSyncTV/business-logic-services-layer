@@ -10,5 +10,6 @@ router.get("/", (req, res) => {
 })
 
 router.get("/today", asyncHandler(tvProgramController.getTodayPrograms))
+router.get("/week", asyncHandler(tvProgramController.getWeekPrograms))
 
 module.exports = router
