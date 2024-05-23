@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> ProgramMetadata</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">ViewSyncTv - Business Logic Service Layer</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ViewSyncTV/business-logic-services-layer"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="Controllers.html">Controllers</a></li><li><a href="ErrorHandler.html">ErrorHandler</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Types.html">Types</a></li></ul><h3>Classes</h3><ul><li><a href="Controllers.ProgramMetadataController.html">ProgramMetadataController</a></li><li><a href="Controllers.TvProgramController.html">TvProgramController</a></li></ul></div><div class="category"><h2>API</h2><h3>Namespaces</h3><ul><li><a href="API.html">API</a></li></ul><h3>Namespaces / External Resources</h3><ul><li><a href="API.ProgramMetadata.html">ProgramMetadata</a></li><li><a href="API.TvProgram.html">TvProgram</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Namespace</p>
+                    <h1>ProgramMetadata</h1>
+                </header>
+                
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="API.html">API</a>.</span>ProgramMetadata</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>This nampespace defines the routes for accessing the data from the Movie and TvShow APIs</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_program-metadata-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_program-metadata-router.js.html">routes/program-metadata-router.js</a>, <a href="routes_program-metadata-router.js.html#line1">line 1</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+        
+    
+    </div>
+    
+    
+
+    
+        <h3 class="subsection-title">Requires</h3>
+
+        <ul>
+            <li>module:express</li>
+        </ul>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <div class='vertical-section'>
+            <h1>Members</h1>
+            <div class="members">
+            
+                <div class="member">
+
+<h4 class="name" id="MovieSearch">
+    <a class="href-link" href="#MovieSearch">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        MovieSearch
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/program-metadata/movie/:id</td>
+                            </tr>
+                            </table>
+                            <p>Search for movies given a query. <br>
+This route will return only the best match for the query.</p>
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:name</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The query to search for</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_program-metadata-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_program-metadata-router.js.html">routes/program-metadata-router.js</a>, <a href="routes_program-metadata-router.js.html#line26">line 26</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of request
+GET /api/program-metadata/movie/joker
+
+// Example of response
+{
+  "data": {
+    "id":475557,"title":"Joker","original_title":"Joker","description":"Arthur Fleck vive con l'anziana madre in un palazzone fatiscente e sbarca il lunario facendo pubblicità per la strada travestito da clown, in attesa di avere il giusto materiale per realizzare il desiderio di fare il comico. La sua vita, però, è una tragedia: ignorato, calpestato, bullizzato, preso in giro da da chiunque, ha sviluppato un tic nervoso che lo fa ridere a sproposito incontrollabilmente, rendendolo inquietante e allontanando ulteriormente da lui ogni possibile relazione sociale. Ma un giorno Arthur non ce la fa più e reagisce violentemente, pistola alla mano. Mentre la polizia di Gotham City dà la caccia al clown killer, la popolazione lo elegge a eroe metropolitano, simbolo della rivolta degli oppressi contro l'arroganza dei ricchi.","poster_path":"https://image.tmdb.org/t/p/original/y1AthYH1r2j4N4cYn2HdrEGgrnJ.jpg","release_date":"2019-10-01","original_language":"en","genres":["Crime","Thriller","Dramma"],"vote_average":8.2
+    ...
+  }
+}</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="Root">
+    <a class="href-link" href="#Root">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        Root
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/program-metadata</td>
+                            </tr>
+                            </table>
+                            <p>Base route of the Metadata API</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_program-metadata-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_program-metadata-router.js.html">routes/program-metadata-router.js</a>, <a href="routes_program-metadata-router.js.html#line18">line 18</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="TvShowDetails">
+    <a class="href-link" href="#TvShowDetails">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        TvShowDetails
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/program-metadata/tv-show/:id</td>
+                            </tr>
+                            </table>
+                            <p>Search for tv-show given a query. <br>
+This route will return only the best match for the query.</p>
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:name</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The query to search for</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_program-metadata-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_program-metadata-router.js.html">routes/program-metadata-router.js</a>, <a href="routes_program-metadata-router.js.html#line48">line 48</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of request
+GET /api/program-metadata/movie/friends
+
+// Example of response
+{
+  "data": {
+    "id":1668,"title":"Friends","original_title":"Friends","description":"Una delle commedie televisive più amate di sempre su un gruppo di sei amici trentenni, la trama si svolge prevalentemente in due appartamenti e un Coffee-Bar: Monica, Rachel, Phoebe, Chandler, Ross e Joey condividono sogni, amori, delusioni e speranze fra gag esilaranti e battute dal ritmo serratissimo.","poster_path":"https://image.tmdb.org/t/p/original/2koX1xLkpTQM4IZebYvKysFW1Nh.jpg","original_language":"en","first_air_date":"1994-09-22","last_air_date":"2004-05-06","number_of_episodes":228,"number_of_seasons":10,"genres":["Commedia"],"in_production":false,"languages":["en"],"origin_country":["US"],"vote_average":8.44,"seasons":[{"id":4583,"name":"Speciali","overview":"","season_number":0,"episode_count":39,"air_date":"2001-02-14","poster_path":"https://image.tmdb.org/t/p/original/xaEj0Vw0LOmp7kBeX2vmYPb5sTg.jpg"},{"id":4573,"name":"Stagione 1","overview":"","season_number":1,"episode_count":24,"air_date":"1994-09-22","poster_path":"https://image.tmdb.org/t/p/original/mCZhdQYezseNfVJlbFd6hTpeYM0.jpg"},{"id":4574,"name":"Stagione 2","overview":"","season_number":2,"episode_count":24,"air_date":"1995-09-21","poster_path":"https://image.tmdb.org/t/p/original/fJ2U6l6eaTkNtdAPiD1q7IqFEP9.jpg"},{"id":4575,"name":"Stagione 3","overview":"","season_number":3,"episode_count":25,"air_date":"1996-09-16","poster_path":"https://image.tmdb.org/t/p/original/5IWDL5RqRG474G8YeaTp0VSvFrE.jpg"},{"id":4576,"name":"Stagione 4","overview":"","season_number":4,"episode_count":23,"air_date":"1997-09-25","poster_path":"https://image.tmdb.org/t/p/original/74fn3cA3wEVxkgB7Zah37p4ouFz.jpg"},{"id":4577,"name":"Stagione 5","overview":"","season_number":5,"episode_count":23,"air_date":"1998-09-24","poster_path":"https://image.tmdb.org/t/p/original/taRurCMvsEjSO5l56rFkUGuUy4u.jpg"},{"id":4578,"name":"Stagione 6","overview":"","season_number":6,"episode_count":23,"air_date":"1999-09-23","poster_path":"https://image.tmdb.org/t/p/original/b28OVNL0h2LLpHB3DbJUPIad4wg.jpg"},{"id":4579,"name":"Stagione 7","overview":"","season_number":7,"episode_count":23,"air_date":"2000-10-12","poster_path":"https://image.tmdb.org/t/p/original/hEFDi5TjUy46LDpci1MZEhhElNa.jpg"},{"id":4580,"name":"Stagione 8","overview":"","season_number":8,"episode_count":23,"air_date":"2001-09-27","poster_path":"https://image.tmdb.org/t/p/original/rmrvBmFBeW7LZX2s8GeKJ3pRCZf.jpg"},{"id":4581,"name":"Stagione 9","overview":"","season_number":9,"episode_count":23,"air_date":"2002-09-26","poster_path":"https://image.tmdb.org/t/p/original/6HVaEV3gl1RQPwYIvzl9Rm0yvLm.jpg"},{"id":4582,"name":"Stagione 10","overview":"","season_number":10,"episode_count":17,"air_date":"2003-09-25","poster_path":"https://image.tmdb.org/t/p/original/jqKRRnpt7MaTDs6NLxHzT3H3Ct4.jpg"}]
+    ...
+  }
+}</code></pre>
+    
+
+
+</div>
+            
+            </div>
+        </div>
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> controllers/tv-program-controller.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">ViewSyncTv - Business Logic Service Layer</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ViewSyncTV/business-logic-services-layer"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="Controllers.html">Controllers</a></li><li><a href="ErrorHandler.html">ErrorHandler</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Types.html">Types</a></li></ul><h3>Classes</h3><ul><li><a href="Controllers.ProgramMetadataController.html">ProgramMetadataController</a></li><li><a href="Controllers.TvProgramController.html">TvProgramController</a></li></ul></div><div class="category"><h2>API</h2><h3>Namespaces</h3><ul><li><a href="API.html">API</a></li></ul><h3>Namespaces / External Resources</h3><ul><li><a href="API.ProgramMetadata.html">ProgramMetadata</a></li><li><a href="API.TvProgram.html">TvProgram</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>controllers/tv-program-controller.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const axios = require("axios")
+// eslint-disable-next-line no-unused-vars
+const Types = require("../types/types")
+// eslint-disable-next-line no-unused-vars
+const Controllers = require("./controllers")
+
+const DATA_SERVICE_URL = process.env.DATA_SERVICE_URL || "http://localhost:3030"
+
+const MEDIASET_TV_PROGRAMS_WEEK_GET = `${DATA_SERVICE_URL}/api/tv-program/mediaset/week`
+const RAI_TV_PROGRAMS_WEEK_GET = `${DATA_SERVICE_URL}/api/tv-program/rai/week`
+const GET_LAST_UPDATE_URL = `${DATA_SERVICE_URL}/api/db/tv-program/get-last-update`
+const TV_PROGRAM_INSERT_URL = `${DATA_SERVICE_URL}/api/db/tv-program/insert`
+
+const DB_TV_PROGRAM_TODAY_GET_URL = `${DATA_SERVICE_URL}/api/db/tv-program/today`
+const DB_TV_PROGRAM_WEEK_GET_URL = `${DATA_SERVICE_URL}/api/db/tv-program/week`
+const DB_TV_PROGRAM_RAI_CHANNEL_LIST_GET = `${DATA_SERVICE_URL}/api/db/tv-program/rai-channel-list`
+const DB_TV_PROGRAM_MEDIASET_CHANNEL_LIST_GET = `${DATA_SERVICE_URL}/api/db/tv-program/mediaset-channel-list`
+
+const MILLISECONDS_IN_ONE_DAY = 86400000
+
+/**
+ * Controller that handles the fetch of the TV programs
+ * @memberof Controllers
+ */
+class TvProgramController {
+    constructor() {
+        this.getTodayPrograms = this.getTodayPrograms.bind(this)
+        this.getWeekPrograms = this.getWeekPrograms.bind(this)
+    }
+
+    /**
+     * Get the list of Tv programs for today for both Mediaset and Rai.
+     * @async
+     * @param {Types.Request} req - The request object
+     * @param {Types.Response} res - The response object
+     * @returns {Promise&lt;Types.ApiResponse&lt;Types.TvProgram[]>>} The list of Tv programs for today
+     * @throws Will throw an error if the request fails
+     */
+    async getTodayPrograms(req, res) {
+        await this.#checkEndUpdateDB(req.log)
+
+        req.log.info(`Calling data service: ${DB_TV_PROGRAM_TODAY_GET_URL}`)
+        const dbResponse = await axios.get(DB_TV_PROGRAM_TODAY_GET_URL)
+
+        req.log.info("Data service response is OK")
+        res.send({ data: dbResponse.data.data })
+    }
+
+    /**
+     * Get the list of Tv programs for this week for both Mediaset and Rai.
+     * @async
+     * @param {Types.Request} req - The request object
+     * @param {Types.Response} res - The response object
+     * @returns {Promise&lt;Types.ApiResponse&lt;Types.TvProgram[]>>} The list of Tv programs for the week
+     * @throws Will throw an error if the request fails
+     */
+    async getWeekPrograms(req, res) {
+        await this.#checkEndUpdateDB(req.log)
+
+        req.log.info(`Calling data service: ${DB_TV_PROGRAM_WEEK_GET_URL}`)
+        const dbResponse = await axios.get(DB_TV_PROGRAM_WEEK_GET_URL)
+
+        req.log.info("Data service response is OK")
+        res.send({ data: dbResponse.data.data })
+    }
+
+    async #checkEndUpdateDB(logger) {
+        if (await this.#isDbUpdateNeeded(logger)) {
+            logger.info("DB update is needed")
+
+            const mediasetPrograms = await this.#getMediasetPrograms(logger)
+            const raiPrograms = await this.#getRaiPrograms(logger)
+            const allPrograms = mediasetPrograms.concat(raiPrograms)
+
+            // save the data on the db
+            logger.info(`Calling data service: ${TV_PROGRAM_INSERT_URL}`)
+            const insertResponse = await axios.post(TV_PROGRAM_INSERT_URL, {
+                data: allPrograms,
+            })
+
+            if (insertResponse.status === 200) {
+                logger.info("Data service response is OK")
+            } else {
+                logger.error("Error saving programs to the DB")
+                throw new Error("Error saving programs to the DB")
+            }
+        }
+    }
+
+    async #getMediasetPrograms(logger) {
+        let mediasetPrograms = []
+        let mediasetChannels = []
+
+        // get the list of mediaset channels from the database
+        logger.info(`Calling data service: ${DB_TV_PROGRAM_MEDIASET_CHANNEL_LIST_GET}`)
+        await axios
+            .get(DB_TV_PROGRAM_MEDIASET_CHANNEL_LIST_GET)
+            .then((response) => {
+                mediasetChannels = response.data.data.map((channel) => channel.id)
+            })
+            .catch((error) => {
+                logger.error(`Error fetching mediaset channels: ${error.message}`)
+            })
+
+        for (let channel of mediasetChannels) {
+            try {
+                const url = `${MEDIASET_TV_PROGRAMS_WEEK_GET}/${channel}`
+                logger.info(`Calling data service: ${url}`)
+                const response = await axios.get(url)
+
+                if (response.status === 200) {
+                    logger.info("Data service response is OK")
+                    mediasetPrograms.push(...response.data.data)
+                }
+            } catch (error) {
+                logger.error(
+                    `Error fetching and parsing programs for channel ${channel}: ${error.message}`,
+                )
+            }
+        }
+
+        mediasetPrograms.filter((program) => program.length > 0)
+        return mediasetPrograms
+    }
+
+    async #getRaiPrograms(logger) {
+        let raiPrograms = []
+        let raiChannels = []
+
+        //getthelist of rai channels from the database
+        logger.info(`Calling data service: ${DB_TV_PROGRAM_RAI_CHANNEL_LIST_GET}`)
+        await axios
+            .get(DB_TV_PROGRAM_RAI_CHANNEL_LIST_GET)
+            .then((response) => {
+                raiChannels = response.data.data.map((channel) => channel.id)
+            })
+            .catch((error) => {
+                logger.error(`Error fetching mediaset channels: ${error.message}`)
+            })
+
+        for (let channel of raiChannels) {
+            try {
+                const url = `${RAI_TV_PROGRAMS_WEEK_GET}/${channel}`
+                logger.info(`Calling data service: ${url}`)
+                const response = await axios.get(url)
+
+                if (response.status === 200) {
+                    logger.info("Data service response is OK")
+                    raiPrograms.push(...response.data.data)
+                }
+            } catch (error) {
+                logger.error(
+                    `Error fetching and parsing programs for channel ${channel}: ${error.message}`,
+                )
+            }
+        }
+
+        raiPrograms.filter((program) => program.length > 0)
+        return raiPrograms
+    }
+
+    async #isDbUpdateNeeded(logger) {
+        try {
+            let days_since_last_update = await this.#getDaysSinceLastUpdate(logger)
+
+            // check if days_since_last_update is is Nan
+            if (isNaN(days_since_last_update)) {
+                logger.error("Data service response is not a number")
+                return true
+            }
+
+            logger.info(`Days since last update: ${days_since_last_update}`)
+            return days_since_last_update > 1
+        } catch (error) {
+            logger.error("Error checking if DB update is needed:", error)
+            return true
+        }
+    }
+
+    async #getDaysSinceLastUpdate(logger) {
+        try {
+            logger.info(`Calling data service:  ${GET_LAST_UPDATE_URL}`)
+            const lastUpdateResponse = await axios.get(GET_LAST_UPDATE_URL)
+
+            if ("error" in lastUpdateResponse) {
+                throw new Error("Internal server error")
+            }
+
+            if (lastUpdateResponse.data.data === null) {
+                logger.error("Empty response from data service")
+                throw new Error("Empty response from the data service")
+            }
+
+            logger.info("Data service response is OK")
+            let lastUpdateDate = new Date(lastUpdateResponse.data.data)
+            let days_since_last_update =
+                (new Date().getTime() - lastUpdateDate) / MILLISECONDS_IN_ONE_DAY
+
+            return days_since_last_update
+        } catch (error) {
+            logger.error("Error fetching last update date:", error)
+            throw new Error("Internal server error")
+        }
+    }
+}
+
+module.exports = TvProgramController
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

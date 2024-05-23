@@ -1,0 +1,227 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> controllers/program-metadata-controller.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="style.css">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">ViewSyncTv - Business Logic Service Layer</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                 
+                    
+                        <a
+                            class="link user-link "
+                            href="https://github.com/ViewSyncTV/business-logic-services-layer"
+                        >
+                            Github
+                        </a>
+                    
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Namespaces</h3><ul><li><a href="Controllers.html">Controllers</a></li><li><a href="ErrorHandler.html">ErrorHandler</a></li><li><a href="Logger.html">Logger</a></li><li><a href="Types.html">Types</a></li></ul><h3>Classes</h3><ul><li><a href="Controllers.ProgramMetadataController.html">ProgramMetadataController</a></li><li><a href="Controllers.TvProgramController.html">TvProgramController</a></li></ul></div><div class="category"><h2>API</h2><h3>Namespaces</h3><ul><li><a href="API.html">API</a></li></ul><h3>Namespaces / External Resources</h3><ul><li><a href="API.ProgramMetadata.html">ProgramMetadata</a></li><li><a href="API.TvProgram.html">TvProgram</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>controllers/program-metadata-controller.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const axios = require("axios")
+const { MovieNotFoundError, TvShowNotFoundError } = require("../errors/program-metadata-errors")
+// eslint-disable-next-line no-unused-vars
+const Types = require("../types/types")
+// eslint-disable-next-line no-unused-vars
+const Controllers = require("./controllers")
+
+const DATA_SERVICE_URL = process.env.DATA_SERVICE_URL || "http://localhost:3030"
+
+const PROGRAM_METADATA_SERVICE_URL = `${DATA_SERVICE_URL}/api/program-metadata`
+const PROGRAM_METADATA_MOVIE_SEARCH_URL = `${PROGRAM_METADATA_SERVICE_URL}/movie/search/{name}`
+const PROGRAM_METADATA_TV_SHOW_SEARCH_URL = `${PROGRAM_METADATA_SERVICE_URL}/tv-show/search/{name}`
+
+const PROGRAM_METADATA_MOVIE_DETAILS_URL = `${PROGRAM_METADATA_SERVICE_URL}/movie/{id}`
+const PROGRAM_METADATA_TV_SHOW_DETAILS_URL = `${PROGRAM_METADATA_SERVICE_URL}/tv-show/{id}`
+
+/**
+ * Controller that handles the fetch of the program metadata
+ * @memberof Controllers
+ */
+class ProgramMetadataController {
+    constructor() {
+        this.getMovieDetails = this.getMovieDetails.bind(this)
+        this.getTvShowDetails = this.getTvShowDetails.bind(this)
+    }
+
+    /**
+     * Get the details of a movie by its name or a compatible query.
+     * The function will call the data service to get a list of possible movies and
+     * then get the details of the first one.
+     * @async
+     * @param {Types.Request} req - The request object
+     * @param {Types.Response} res - The response object
+     * @returns {Promise&lt;Types.ApiResponse&lt;Types.Movie>>} The details of the movie
+     * @throws Will throw an error if the request fails
+     */
+    async getMovieDetails(req, res) {
+        const movieName = req.params.name
+        const movieNameAdapted = encodeURIComponent(movieName)
+
+        const url = PROGRAM_METADATA_MOVIE_SEARCH_URL.replace("{name}", movieNameAdapted)
+        req.log.info(`Calling data service: ${url}`)
+
+        const response = await axios.get(url)
+
+        if (response.data?.data?.length > 0) {
+            const movie = response.data.data[0]
+
+            // get details of the movie
+            const movieDetailsUrl = PROGRAM_METADATA_MOVIE_DETAILS_URL.replace("{id}", movie.id)
+            req.log.info(`Calling data service: ${movieDetailsUrl}`)
+
+            const detailsResponse = await axios.get(movieDetailsUrl)
+
+            res.status(200).send({ data: detailsResponse.data.data })
+        } else {
+            throw new MovieNotFoundError(movieName)
+        }
+    }
+
+    /**
+     * Get the details of a tv-show by its name or a compatible query.
+     * The function will call the data service to get a list of possible shows and
+     * then get the details of the first one.
+     * @async
+     * @param {Types.Request} req - The request object
+     * @param {Types.Response} res - The response object
+     * @returns {Promise&lt;Types.ApiResponse&lt;Types.TVShow>>} The details of the tv-show
+     * @throws Will throw an error if the request fails
+     */
+    async getTvShowDetails(req, res) {
+        const tvShowName = req.params.name
+        const tvShowNameAdapted = encodeURIComponent(tvShowName)
+
+        const url = PROGRAM_METADATA_TV_SHOW_SEARCH_URL.replace("{name}", tvShowNameAdapted)
+        req.log.info(`Calling data service: ${url}`)
+
+        const response = await axios.get(url)
+
+        // take only the first
+        if (response.data?.data?.length > 0) {
+            const tvShow = response.data.data[0]
+
+            // get details of the TV show
+            const tvShowDetailsUrl = PROGRAM_METADATA_TV_SHOW_DETAILS_URL.replace("{id}", tvShow.id)
+            req.log.info(`Calling data service: ${tvShowDetailsUrl}`)
+
+            const detailsResponse = await axios.get(tvShowDetailsUrl)
+
+            res.status(200).send({ data: detailsResponse.data.data })
+        } else {
+            throw new TvShowNotFoundError(tvShowName)
+        }
+    }
+}
+
+module.exports = ProgramMetadataController
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.3</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
