@@ -1,4 +1,8 @@
 const axios = require("axios")
+// eslint-disable-next-line no-unused-vars
+const Types = require("../types/types")
+// eslint-disable-next-line no-unused-vars
+const Controllers = require("./controllers")
 
 const DATA_SERVICE_URL = process.env.DATA_SERVICE_URL || "http://localhost:3030"
 
@@ -14,12 +18,24 @@ const DB_TV_PROGRAM_MEDIASET_CHANNEL_LIST_GET = `${DATA_SERVICE_URL}/api/db/tv-p
 
 const MILLISECONDS_IN_ONE_DAY = 86400000
 
+/**
+ * Controller that handles the fetch of the TV programs
+ * @memberof Controllers
+ */
 class TvProgramController {
     constructor() {
         this.getTodayPrograms = this.getTodayPrograms.bind(this)
         this.getWeekPrograms = this.getWeekPrograms.bind(this)
     }
 
+    /**
+     * Get the list of Tv programs for today for both Mediaset and Rai.
+     * @async
+     * @param {Types.Request} req - The request object
+     * @param {Types.Response} res - The response object
+     * @returns {Promise<Types.ApiResponse<Types.TvProgram[]>>} The list of Tv programs for today
+     * @throws Will throw an error if the request fails
+     */
     async getTodayPrograms(req, res) {
         await this.#checkEndUpdateDB(req.log)
 
@@ -30,6 +46,14 @@ class TvProgramController {
         res.send({ data: dbResponse.data.data })
     }
 
+    /**
+     * Get the list of Tv programs for this week for both Mediaset and Rai.
+     * @async
+     * @param {Types.Request} req - The request object
+     * @param {Types.Response} res - The response object
+     * @returns {Promise<Types.ApiResponse<Types.TvProgram[]>>} The list of Tv programs for the week
+     * @throws Will throw an error if the request fails
+     */
     async getWeekPrograms(req, res) {
         await this.#checkEndUpdateDB(req.log)
 

@@ -1,0 +1,38 @@
+{
+    "plugins": ["plugins/markdown", "jsdoc-route-plugin", "node_modules/better-docs/category"],
+    "recurseDepth": 10,
+    "opts": {
+        "destination": "./docs/",
+        "template": "node_modules/better-docs",
+        "readme": "README.md",
+        "recurse": true
+    },
+    "source": {
+        "include": ["app.js", "./src"],
+        "exclude": ["./node_modules", "./test", "./docs", "./coverage"],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "sourceType": "module",
+    "tags": {
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc", "closure"]
+    },
+    "templates": {
+        "cleverLinks": true,
+        "monospaceLinks": true,
+        "better-docs": {
+            "name": "ViewSyncTv - Business Logic Service Layer",
+            "css": "style.css",
+            "hideGenerator": false,
+            "navLinks": [
+                {
+                    "label": "Github",
+                    "href": "https://github.com/ViewSyncTV/business-logic-services-layer"
+                }
+            ]
+        }
+    }
+}
+
+

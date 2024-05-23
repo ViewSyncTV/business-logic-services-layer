@@ -10,15 +10,20 @@
     "main": "app.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon app.js"
+        "start": "nodemon app.js",
+        "docs": "jsdoc -d docs --configure jsdoc.json"
     },
     "author": "",
     "license": "ISC",
     "description": "",
     "devDependencies": {
+        "better-docs": "^2.7.3",
         "dotenv": "^16.4.5",
         "eslint": "^8.57.0",
+        "eslint-plugin-jsdoc": "^48.2.5",
         "eslint-plugin-node": "^11.1.0",
+        "jsdoc": "^4.0.3",
+        "jsdoc-route-plugin": "^0.1.0",
         "nodemon": "^3.1.0"
     }
 }

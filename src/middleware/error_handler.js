@@ -1,14 +1,23 @@
+/** @namespace ErrorHandler */
+
 /**
- * Error handler middleware
- * Avoid try-catch blocks in controllers
+ * Async handler middleware, wraps the controller functions to catch errors and pass them to the error handler
+ * @param {Function} fn - The controller function
+ * @returns {Function} The wrapped controller function
+ * @memberof ErrorHandler
  */
 const asyncHandler = (fn) => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next)
 }
 
 /**
- * Error handler middleware
- * Handle the logging and response to the client in case of errro
+ * Function that handles the error and sends a response to the client in case of error
+ * @function
+ * @param {Error} err - The error object
+ * @param {Types.Request} req - The request object
+ * @param {Types.Response} res - The response object
+ * @param {Function} next - The next middleware
+ * @memberof ErrorHandler
  */
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
@@ -41,4 +50,3 @@ module.exports = {
     asyncHandler,
     errorHandler,
 }
-

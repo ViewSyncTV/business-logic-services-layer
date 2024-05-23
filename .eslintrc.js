@@ -5,7 +5,7 @@ module.exports = {
         commonjs: true,
         es2021: true,
     },
-    extends: "eslint:recommended",
+    extends: ["eslint:recommended", "plugin:jsdoc/recommended"],
     overrides: [
         {
             env: {

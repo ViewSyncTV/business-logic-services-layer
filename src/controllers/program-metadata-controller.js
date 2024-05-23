@@ -1,5 +1,9 @@
 const axios = require("axios")
 const { MovieNotFoundError, TvShowNotFoundError } = require("../errors/program-metadata-errors")
+// eslint-disable-next-line no-unused-vars
+const Types = require("../types/types")
+// eslint-disable-next-line no-unused-vars
+const Controllers = require("./controllers")
 
 const DATA_SERVICE_URL = process.env.DATA_SERVICE_URL || "http://localhost:3030"
 
@@ -10,12 +14,26 @@ const PROGRAM_METADATA_TV_SHOW_SEARCH_URL = `${PROGRAM_METADATA_SERVICE_URL}/tv-
 const PROGRAM_METADATA_MOVIE_DETAILS_URL = `${PROGRAM_METADATA_SERVICE_URL}/movie/{id}`
 const PROGRAM_METADATA_TV_SHOW_DETAILS_URL = `${PROGRAM_METADATA_SERVICE_URL}/tv-show/{id}`
 
+/**
+ * Controller that handles the fetch of the program metadata
+ * @memberof Controllers
+ */
 class ProgramMetadataController {
     constructor() {
         this.getMovieDetails = this.getMovieDetails.bind(this)
         this.getTvShowDetails = this.getTvShowDetails.bind(this)
     }
 
+    /**
+     * Get the details of a movie by its name or a compatible query.
+     * The function will call the data service to get a list of possible movies and
+     * then get the details of the first one.
+     * @async
+     * @param {Types.Request} req - The request object
+     * @param {Types.Response} res - The response object
+     * @returns {Promise<Types.ApiResponse<Types.Movie>>} The details of the movie
+     * @throws Will throw an error if the request fails
+     */
     async getMovieDetails(req, res) {
         const movieName = req.params.name
         const movieNameAdapted = encodeURIComponent(movieName)
@@ -27,10 +45,6 @@ class ProgramMetadataController {
 
         if (response.data?.data?.length > 0) {
             const movie = response.data.data[0]
-
-            // simulate a delay, otherwise i get 'socket hang up' error
-            // (not really in this function, but in the getTvShowDetails, but in order to avoid it, i put it here too)
-            await new Promise(resolve => setTimeout(resolve, 1))
 
             // get details of the movie
             const movieDetailsUrl = PROGRAM_METADATA_MOVIE_DETAILS_URL.replace("{id}", movie.id)
@@ -44,6 +58,16 @@ class ProgramMetadataController {
         }
     }
 
+    /**
+     * Get the details of a tv-show by its name or a compatible query.
+     * The function will call the data service to get a list of possible shows and
+     * then get the details of the first one.
+     * @async
+     * @param {Types.Request} req - The request object
+     * @param {Types.Response} res - The response object
+     * @returns {Promise<Types.ApiResponse<Types.TVShow>>} The details of the tv-show
+     * @throws Will throw an error if the request fails
+     */
     async getTvShowDetails(req, res) {
         const tvShowName = req.params.name
         const tvShowNameAdapted = encodeURIComponent(tvShowName)
@@ -56,9 +80,6 @@ class ProgramMetadataController {
         // take only the first
         if (response.data?.data?.length > 0) {
             const tvShow = response.data.data[0]
-
-            // simulate a delay, otherwise i get 'socket hang up' error
-            await new Promise(resolve => setTimeout(resolve, 1))
 
             // get details of the TV show
             const tvShowDetailsUrl = PROGRAM_METADATA_TV_SHOW_DETAILS_URL.replace("{id}", tvShow.id)
