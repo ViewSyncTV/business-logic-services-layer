@@ -185,6 +185,308 @@
             
                 <div class="member">
 
+<h4 class="name" id="FavoriteAdd">
+    <a class="href-link" href="#FavoriteAdd">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        FavoriteAdd
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/api/tv-program/favorite</td>
+                            </tr>
+                            </table>
+                            <p>Add a Tv program to the favorite list of the user.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_tv-program-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_tv-program-router.js.html">routes/tv-program-router.js</a>, <a href="routes_tv-program-router.js.html#line69">line 69</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of request
+POST /api/tv-program/favorite
+{
+    "user_email": "test@email.com",
+    "movie_id": "12345"  // or tvshow_id
+}</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="FavoriteGet">
+    <a class="href-link" href="#FavoriteGet">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        FavoriteGet
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/tv-program/favorites</td>
+                            </tr>
+                            </table>
+                            <p>Get the list of favorite Tv programs of the user.</p>
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:userMail</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The email of the user</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_tv-program-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_tv-program-router.js.html">routes/tv-program-router.js</a>, <a href="routes_tv-program-router.js.html#line99">line 99</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of request
+GET /api/tv-program/favorites/test%40mail.com%0A
+
+// Example of response
+{
+    "data": [
+         {"movie_id": 8384}
+         {"tvshow_id": 88829},
+    ]
+}</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="FavoriteRemove">
+    <a class="href-link" href="#FavoriteRemove">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        FavoriteRemove
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">DELETE</td>
+                            <td class="name last">/api/tv-program/favorite</td>
+                            </tr>
+                            </table>
+                            <p>Remove a Tv program from the favorite list of the user.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_tv-program-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_tv-program-router.js.html">routes/tv-program-router.js</a>, <a href="routes_tv-program-router.js.html#line84">line 84</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of request
+DELETE /api/tv-program/favorite
+{
+   "user_email": "test@email.com",
+   "tvshow_id": "12345"  // or movie_id
+}</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
 <h4 class="name" id="RaiTodayGet">
     <a class="href-link" href="#RaiTodayGet">#</a>
     

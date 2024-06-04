@@ -127,12 +127,12 @@ router.get("/", (req, res) => res.send("This is the program metadata API endpoin
  * Search for movies given a query. &lt;br>
  * This route will return only the best match for the query.
  * @name MovieSearch
- * @route {GET} /api/program-metadata/movie/:id
+ * @route {GET} /api/program-metadata/movie/:name
  * @routeparam {string} :name - The query to search for
  * @memberof API.ProgramMetadata
  * @example
  * // Example of request
- * GET /api/program-metadata/movie/joker
+ * GET /api/program-metadata/tv-show/joker
  *
  * // Example of response
  * {
@@ -149,12 +149,12 @@ router.get("/movie/:name", asyncHandler(programMetadataController.getMovieDetail
  * Search for tv-show given a query. &lt;br>
  * This route will return only the best match for the query.
  * @name TvShowDetails
- * @route {GET} /api/program-metadata/tv-show/:id
+ * @route {GET} /api/program-metadata/tv-show/:name
  * @routeparam {string} :name - The query to search for
  * @memberof API.ProgramMetadata
  * @example
  * // Example of request
- * GET /api/program-metadata/movie/friends
+ * GET /api/program-metadata/tv-show/friends
  *
  * // Example of response
  * {

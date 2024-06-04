@@ -207,7 +207,7 @@
                             <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
                             <tr>
                             <td class="type">GET</td>
-                            <td class="name last">/api/program-metadata/movie/:id</td>
+                            <td class="name last">/api/program-metadata/movie/:name</td>
                             </tr>
                             </table>
                             <p>Search for movies given a query. <br>
@@ -286,7 +286,7 @@ This route will return only the best match for the query.</p>
     
     
         <pre class="prettyprint"><code>// Example of request
-GET /api/program-metadata/movie/joker
+GET /api/program-metadata/tv-show/joker
 
 // Example of response
 {
@@ -405,7 +405,7 @@ GET /api/program-metadata/movie/joker
                             <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
                             <tr>
                             <td class="type">GET</td>
-                            <td class="name last">/api/program-metadata/tv-show/:id</td>
+                            <td class="name last">/api/program-metadata/tv-show/:name</td>
                             </tr>
                             </table>
                             <p>Search for tv-show given a query. <br>
@@ -484,7 +484,7 @@ This route will return only the best match for the query.</p>
     
     
         <pre class="prettyprint"><code>// Example of request
-GET /api/program-metadata/movie/friends
+GET /api/program-metadata/tv-show/friends
 
 // Example of response
 {
