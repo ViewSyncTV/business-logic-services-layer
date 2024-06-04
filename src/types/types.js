@@ -98,4 +98,11 @@ const { Response, Request } = require("express")
  * @memberof Types
  */
 
+/**
+ * @typedef {object} Favorite - The favorite object
+ * @property {?string} movie_id - The id of the movie
+ * @property {?string} tvshow_id - The id of the tv show
+ * @memberof Types
+ */
+
 module.exports = {}
