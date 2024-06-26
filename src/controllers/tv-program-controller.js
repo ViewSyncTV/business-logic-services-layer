@@ -116,7 +116,7 @@ class TvProgramController {
         const url = DB_FAVORITE_URL
         req.log.info(`Calling data service: ${url}`)
 
-        const response = await axios.delete(url, req.body)
+        const response = await axios.delete(url, {data: req.body})
 
         req.log.info("Data service response is OK")
         res.send(response.data)
