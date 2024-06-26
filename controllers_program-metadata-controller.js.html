@@ -114,6 +114,9 @@ const PROGRAM_METADATA_TV_SHOW_SEARCH_URL = `${PROGRAM_METADATA_SERVICE_URL}/tv-
 const PROGRAM_METADATA_MOVIE_DETAILS_URL = `${PROGRAM_METADATA_SERVICE_URL}/movie/{id}`
 const PROGRAM_METADATA_TV_SHOW_DETAILS_URL = `${PROGRAM_METADATA_SERVICE_URL}/tv-show/{id}`
 
+const PROGRAM_METADATA_MOVIE_RECOMMENDATIONS_URL = `${PROGRAM_METADATA_SERVICE_URL}/movie/recommendations/{id}`
+const PROGRAM_METADATA_TV_SHOW_RECOMMENDATIONS_URL = `${PROGRAM_METADATA_SERVICE_URL}/tv-show/recommendations/{id}`
+
 /**
  * Controller that handles the fetch of the program metadata
  * @memberof Controllers
@@ -122,6 +125,8 @@ class ProgramMetadataController {
     constructor() {
         this.getMovieDetails = this.getMovieDetails.bind(this)
         this.getTvShowDetails = this.getTvShowDetails.bind(this)
+        this.getTvShowRecommendations = this.getTvShowRecommendations.bind(this)
+        this.getMovieRecommendations = this.getMovieRecommendations.bind(this)
     }
 
     /**
@@ -191,6 +196,46 @@ class ProgramMetadataController {
         } else {
             throw new TvShowNotFoundError(tvShowName)
         }
+    }
+
+    /**
+     * Get the recommendations of a tv-show by its id.
+     * @async
+     * @param {Types.Request} req - The request object
+     * @param {Types.Response} res - The response object
+     * @returns {Promise&lt;Types.ApiResponse&lt;Types.TVShow[]>>} The recommendations of the tv-show
+     * @throws Will throw an error if the request fails
+     */
+    async getTvShowRecommendations(req, res) {
+        const id = req.params.id
+
+        const url = PROGRAM_METADATA_TV_SHOW_SEARCH_URL.replace("{id}", id)
+        req.log.info(`Calling data service: ${url}`)
+
+        const response = await axios.get(url)
+
+        req.log.info("Data servire response is OK")
+        res.send({ data: response.data.data })
+    }
+
+    /**
+     * Get the recommendations of a movie by its id.
+     * @async
+     * @param {Types.Request} req - The request object
+     * @param {Types.Response} res - The response object
+     * @returns {Promise&lt;Types.ApiResponse&lt;Types.Movie[]>>} The recommendations of the movie
+     * @throws Will throw an error if the request fails
+     */
+    async getMovieRecommendations(req, res) {
+        const id = req.params.id
+
+        const url = PROGRAM_METADATA_MOVIE_SEARCH_URL.replace("{name}", id)
+        req.log.info(`Calling data service: ${url}`)
+
+        const response = await axios.get(url)
+
+        req.log.info("Data servire response is OK")
+        res.send({ data: response.data.data })
     }
 }
 

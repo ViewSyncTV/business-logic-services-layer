@@ -185,6 +185,121 @@
             
                 <div class="member">
 
+<h4 class="name" id="MovieRecommendations">
+    <a class="href-link" href="#MovieRecommendations">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        MovieRecommendations
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/program-metadata/movie/recommendations/:id</td>
+                            </tr>
+                            </table>
+                            <p>Get recommendations for a movie given its id.</p>
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:id</td>
+            <td class="type">number</td>
+            
+            
+            <td class="description last">The id of the movie</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_program-metadata-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_program-metadata-router.js.html">routes/program-metadata-router.js</a>, <a href="routes_program-metadata-router.js.html#line90">line 90</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of request
+GET /api/program-metadata/movie/recommendations/475557
+
+// Example of response
+{
+  "data": {
+     "id":123,"title":"Starting Over","original_title":"Starting Over","description":"","poster_path":"https://image.tmdb.org/t/p/original/dfoTgMdVKF08Sqp4AeLlMcLaVV7.jpg","original_language":"en","first_air_date":"2003-09-09","last_air_date":"2004-11-05","number_of_episodes":235,"number_of_seasons":2,"genres":[],"in_production":false,"languages":[],"origin_country":["US"],"vote_average":8.5,"seasons":[{"id":358,"name":"Stagione 1","overview":"","season_number":1,"episode_count":195,"air_date":"2003-09-08","poster_path":""},{"id":359,"name":"Stagione 2","overview":"","season_number":2,"episode_count":40,"air_date":"2004-09-13","poster_path":""
+  }
+}</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
 <h4 class="name" id="MovieSearch">
     <a class="href-link" href="#MovieSearch">#</a>
     
@@ -470,7 +585,7 @@ This route will return only the best match for the query.</p>
         <p class="tag-source">
             <a href="routes_program-metadata-router.js.html" class="button">View Source</a>
             <span>
-                <a href="routes_program-metadata-router.js.html">routes/program-metadata-router.js</a>, <a href="routes_program-metadata-router.js.html#line48">line 48</a>
+                <a href="routes_program-metadata-router.js.html">routes/program-metadata-router.js</a>, <a href="routes_program-metadata-router.js.html#line47">line 47</a>
             </span>
         </p>
     
@@ -492,6 +607,121 @@ GET /api/program-metadata/tv-show/friends
     "id":1668,"title":"Friends","original_title":"Friends","description":"Una delle commedie televisive più amate di sempre su un gruppo di sei amici trentenni, la trama si svolge prevalentemente in due appartamenti e un Coffee-Bar: Monica, Rachel, Phoebe, Chandler, Ross e Joey condividono sogni, amori, delusioni e speranze fra gag esilaranti e battute dal ritmo serratissimo.","poster_path":"https://image.tmdb.org/t/p/original/2koX1xLkpTQM4IZebYvKysFW1Nh.jpg","original_language":"en","first_air_date":"1994-09-22","last_air_date":"2004-05-06","number_of_episodes":228,"number_of_seasons":10,"genres":["Commedia"],"in_production":false,"languages":["en"],"origin_country":["US"],"vote_average":8.44,"seasons":[{"id":4583,"name":"Speciali","overview":"","season_number":0,"episode_count":39,"air_date":"2001-02-14","poster_path":"https://image.tmdb.org/t/p/original/xaEj0Vw0LOmp7kBeX2vmYPb5sTg.jpg"},{"id":4573,"name":"Stagione 1","overview":"","season_number":1,"episode_count":24,"air_date":"1994-09-22","poster_path":"https://image.tmdb.org/t/p/original/mCZhdQYezseNfVJlbFd6hTpeYM0.jpg"},{"id":4574,"name":"Stagione 2","overview":"","season_number":2,"episode_count":24,"air_date":"1995-09-21","poster_path":"https://image.tmdb.org/t/p/original/fJ2U6l6eaTkNtdAPiD1q7IqFEP9.jpg"},{"id":4575,"name":"Stagione 3","overview":"","season_number":3,"episode_count":25,"air_date":"1996-09-16","poster_path":"https://image.tmdb.org/t/p/original/5IWDL5RqRG474G8YeaTp0VSvFrE.jpg"},{"id":4576,"name":"Stagione 4","overview":"","season_number":4,"episode_count":23,"air_date":"1997-09-25","poster_path":"https://image.tmdb.org/t/p/original/74fn3cA3wEVxkgB7Zah37p4ouFz.jpg"},{"id":4577,"name":"Stagione 5","overview":"","season_number":5,"episode_count":23,"air_date":"1998-09-24","poster_path":"https://image.tmdb.org/t/p/original/taRurCMvsEjSO5l56rFkUGuUy4u.jpg"},{"id":4578,"name":"Stagione 6","overview":"","season_number":6,"episode_count":23,"air_date":"1999-09-23","poster_path":"https://image.tmdb.org/t/p/original/b28OVNL0h2LLpHB3DbJUPIad4wg.jpg"},{"id":4579,"name":"Stagione 7","overview":"","season_number":7,"episode_count":23,"air_date":"2000-10-12","poster_path":"https://image.tmdb.org/t/p/original/hEFDi5TjUy46LDpci1MZEhhElNa.jpg"},{"id":4580,"name":"Stagione 8","overview":"","season_number":8,"episode_count":23,"air_date":"2001-09-27","poster_path":"https://image.tmdb.org/t/p/original/rmrvBmFBeW7LZX2s8GeKJ3pRCZf.jpg"},{"id":4581,"name":"Stagione 9","overview":"","season_number":9,"episode_count":23,"air_date":"2002-09-26","poster_path":"https://image.tmdb.org/t/p/original/6HVaEV3gl1RQPwYIvzl9Rm0yvLm.jpg"},{"id":4582,"name":"Stagione 10","overview":"","season_number":10,"episode_count":17,"air_date":"2003-09-25","poster_path":"https://image.tmdb.org/t/p/original/jqKRRnpt7MaTDs6NLxHzT3H3Ct4.jpg"}]
     ...
   }
+}</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="TvShowRecommendations">
+    <a class="href-link" href="#TvShowRecommendations">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        TvShowRecommendations
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/program-metadata/tv-show/recommendations/:id</td>
+                            </tr>
+                            </table>
+                            <p>Get recommendations for a tv-show given its id.</p>
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:id</td>
+            <td class="type">number</td>
+            
+            
+            <td class="description last">The id of the tv-show</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_program-metadata-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_program-metadata-router.js.html">routes/program-metadata-router.js</a>, <a href="routes_program-metadata-router.js.html#line68">line 68</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of request
+GET /api/program-metadata/tv-show/recommendations/1668
+
+// Example of response
+{
+  "data": [{
+    "id":123,"title":"Il Signore degli Anelli","original_title":"The Lord of the Rings","description":"Ambiziosa versione in animazione della saga (1954-55) di John Ronald Reuel Tolkien. Giovane hobbit della Terra di Mezzo deve gettare nel fuoco della montagna l'anello malefico del Signore delle Tenebre. Mille difficoltà lo attendono.","poster_path":"https://image.tmdb.org/t/p/original/w4YJrNjQfMEx2oal7Taskg6oa93.jpg","release_date":"1978-11-15","original_language":"en","genres":["Avventura","Animazione","Fantasy"],"vote_average":6.6
+  }]
 }</code></pre>
     
 

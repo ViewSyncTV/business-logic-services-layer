@@ -144,7 +144,6 @@ router.get("/", (req, res) => res.send("This is the program metadata API endpoin
  */
 router.get("/movie/:name", asyncHandler(programMetadataController.getMovieDetails))
 
-
 /**
  * Search for tv-show given a query. &lt;br>
  * This route will return only the best match for the query.
@@ -165,6 +164,50 @@ router.get("/movie/:name", asyncHandler(programMetadataController.getMovieDetail
  * }
  */
 router.get("/tv-show/:name", asyncHandler(programMetadataController.getTvShowDetails))
+
+/**
+ * Get recommendations for a tv-show given its id.
+ * @name TvShowRecommendations
+ * @route {GET} /api/program-metadata/tv-show/recommendations/:id
+ * @routeparam {number} :id - The id of the tv-show
+ * @memberof API.ProgramMetadata
+ * @example
+ * // Example of request
+ * GET /api/program-metadata/tv-show/recommendations/1668
+ *
+ * // Example of response
+ * {
+ *   "data": [{
+ *     "id":123,"title":"Il Signore degli Anelli","original_title":"The Lord of the Rings","description":"Ambiziosa versione in animazione della saga (1954-55) di John Ronald Reuel Tolkien. Giovane hobbit della Terra di Mezzo deve gettare nel fuoco della montagna l'anello malefico del Signore delle Tenebre. Mille difficoltà lo attendono.","poster_path":"https://image.tmdb.org/t/p/original/w4YJrNjQfMEx2oal7Taskg6oa93.jpg","release_date":"1978-11-15","original_language":"en","genres":["Avventura","Animazione","Fantasy"],"vote_average":6.6
+ *   }]
+ * }
+ */
+router.get(
+    "/tv-show/recommendations/:id",
+    asyncHandler(programMetadataController.getTvShowRecommendations),
+)
+
+/**
+ * Get recommendations for a movie given its id.
+ * @name MovieRecommendations
+ * @route {GET} /api/program-metadata/movie/recommendations/:id
+ * @routeparam {number} :id - The id of the movie
+ * @memberof API.ProgramMetadata
+ * @example
+ * // Example of request
+ * GET /api/program-metadata/movie/recommendations/475557
+ *
+ * // Example of response
+ * {
+ *   "data": {
+ *      "id":123,"title":"Starting Over","original_title":"Starting Over","description":"","poster_path":"https://image.tmdb.org/t/p/original/dfoTgMdVKF08Sqp4AeLlMcLaVV7.jpg","original_language":"en","first_air_date":"2003-09-09","last_air_date":"2004-11-05","number_of_episodes":235,"number_of_seasons":2,"genres":[],"in_production":false,"languages":[],"origin_country":["US"],"vote_average":8.5,"seasons":[{"id":358,"name":"Stagione 1","overview":"","season_number":1,"episode_count":195,"air_date":"2003-09-08","poster_path":""},{"id":359,"name":"Stagione 2","overview":"","season_number":2,"episode_count":40,"air_date":"2004-09-13","poster_path":""
+ *   }
+ * }
+ */
+router.get(
+    "/movie/recommendations/:id",
+    asyncHandler(programMetadataController.getMovieRecommendations),
+)
 
 module.exports = router
 </code></pre>
