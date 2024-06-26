@@ -100,8 +100,10 @@ const { Response, Request } = require("express")
 
 /**
  * @typedef {object} Favorite - The favorite object
+ * @property {?string} user_email - The email of the user
  * @property {?string} movie_id - The id of the movie
  * @property {?string} tvshow_id - The id of the tv show
+ * @property {?string} title - The title of the favorite
  * @memberof Types
  */
 
