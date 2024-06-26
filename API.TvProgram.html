@@ -269,7 +269,8 @@
 POST /api/tv-program/favorite
 {
     "user_email": "test@email.com",
-    "movie_id": "12345"  // or tvshow_id
+    "movie_id": "12345",  // or tvshow_id
+    "title": "Title"
 }</code></pre>
     
 
@@ -364,7 +365,7 @@ POST /api/tv-program/favorite
         <p class="tag-source">
             <a href="routes_tv-program-router.js.html" class="button">View Source</a>
             <span>
-                <a href="routes_tv-program-router.js.html">routes/tv-program-router.js</a>, <a href="routes_tv-program-router.js.html#line99">line 99</a>
+                <a href="routes_tv-program-router.js.html">routes/tv-program-router.js</a>, <a href="routes_tv-program-router.js.html#line100">line 100</a>
             </span>
         </p>
     
@@ -383,8 +384,8 @@ GET /api/tv-program/favorites/test%40mail.com%0A
 // Example of response
 {
     "data": [
-         {"movie_id": 8384}
-         {"tvshow_id": 88829},
+         {"movie_id": 8384, "title": "title1"}
+         {"tvshow_id": 88829, "title": "title2"},
     ]
 }</code></pre>
     
@@ -461,7 +462,7 @@ GET /api/tv-program/favorites/test%40mail.com%0A
         <p class="tag-source">
             <a href="routes_tv-program-router.js.html" class="button">View Source</a>
             <span>
-                <a href="routes_tv-program-router.js.html">routes/tv-program-router.js</a>, <a href="routes_tv-program-router.js.html#line84">line 84</a>
+                <a href="routes_tv-program-router.js.html">routes/tv-program-router.js</a>, <a href="routes_tv-program-router.js.html#line85">line 85</a>
             </span>
         </p>
     
