@@ -684,6 +684,308 @@ GET /api/tv-program/week
             
                 <div class="member">
 
+<h4 class="name" id="ReminderAdd">
+    <a class="href-link" href="#ReminderAdd">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        ReminderAdd
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">POST</td>
+                            <td class="name last">/api/tv-program/reminder</td>
+                            </tr>
+                            </table>
+                            <p>Add a Tv program to the reminder list of the user.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_tv-program-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_tv-program-router.js.html">routes/tv-program-router.js</a>, <a href="routes_tv-program-router.js.html#line120">line 120</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of request
+POST /api/tv-program/reminder
+{
+    "user_email": "test@email.com",
+    "tvprogram_id": "12345"
+}</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="ReminderGet">
+    <a class="href-link" href="#ReminderGet">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        ReminderGet
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">GET</td>
+                            <td class="name last">/api/tv-program/reminders</td>
+                            </tr>
+                            </table>
+                            <p>Get the list of reminder Tv programs of the user.</p>
+                            <h5>Route Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                
+                
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tr>
+            <td class="name">:userMail</td>
+            <td class="type">string</td>
+            
+            
+            <td class="description last">The email of the user</td>
+          </tr>
+          </table>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_tv-program-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_tv-program-router.js.html">routes/tv-program-router.js</a>, <a href="routes_tv-program-router.js.html#line150">line 150</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of request
+GET /api/tv-program/reminders/test%40mail.com%0A
+
+// Example of response
+{
+    "data": [
+         {"tvprogram_id": 8384},
+         {"tvprogram_id": 88829}
+    ]
+}</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
+<h4 class="name" id="ReminderRemove">
+    <a class="href-link" href="#ReminderRemove">#</a>
+    
+        
+            <span class='tag'>route</span>
+        
+    
+    <span class="code-name">
+        ReminderRemove
+    </span>
+    
+</h4>
+
+
+
+
+<div class="description">
+    <h5>Route:</h5>
+                            <table class="params">
+                            <thead><tr><th>Method</th><th class="last">Path</th></tr></thead>
+                            <tr>
+                            <td class="type">DELETE</td>
+                            <td class="name last">/api/tv-program/reminder</td>
+                            </tr>
+                            </table>
+                            <p>Remove a Tv program from the reminder list of the user.</p>
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="routes_tv-program-router.js.html" class="button">View Source</a>
+            <span>
+                <a href="routes_tv-program-router.js.html">routes/tv-program-router.js</a>, <a href="routes_tv-program-router.js.html#line135">line 135</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+    <h5>Example</h5>
+    
+    
+        <pre class="prettyprint"><code>// Example of request
+DELETE /api/tv-program/reminder
+{
+   "user_email": "test@email.com",
+   "tvprogram_id": "12345"
+}</code></pre>
+    
+
+
+</div>
+            
+                <div class="member">
+
 <h4 class="name" id="Root">
     <a class="href-link" href="#Root">#</a>
     
