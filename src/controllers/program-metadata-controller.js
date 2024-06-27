@@ -109,7 +109,7 @@ class ProgramMetadataController {
     async getTvShowRecommendations(req, res) {
         const id = req.params.id
 
-        const url = PROGRAM_METADATA_TV_SHOW_SEARCH_URL.replace("{id}", id)
+        const url = PROGRAM_METADATA_TV_SHOW_RECOMMENDATIONS_URL.replace("{id}", id)
         req.log.info(`Calling data service: ${url}`)
 
         const response = await axios.get(url)
@@ -129,7 +129,7 @@ class ProgramMetadataController {
     async getMovieRecommendations(req, res) {
         const id = req.params.id
 
-        const url = PROGRAM_METADATA_MOVIE_SEARCH_URL.replace("{name}", id)
+        const url = PROGRAM_METADATA_MOVIE_RECOMMENDATIONS_URL.replace("{id}", id)
         req.log.info(`Calling data service: ${url}`)
 
         const response = await axios.get(url)
